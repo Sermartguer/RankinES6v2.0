@@ -69,5 +69,7 @@ function formatDate(date) {
 
   return day + ' ' + monthNames[monthIndex] + ' ' + year + ' ' + hour + ':' + minute;
 }
-
-export {formatDate,popupwindow,hashcode,getElementTd,deleteContent,loadTemplate};
+function checkregex(regular, string) {
+  return regular.test(string);
+}
+export {formatDate,popupwindow,hashcode,getElementTd,deleteContent,loadTemplate,checkregex};

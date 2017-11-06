@@ -47,7 +47,7 @@ class Person {
   }
 
   /** Add a gradded task linked to person with its own mark. */
-  addGradedTask(taskInstance) {
+  addGradedTask(taskInstance,points) {
     this.gradedTasks.push({'task':taskInstance,'points':0});
   }
 
@@ -63,56 +63,45 @@ class Person {
    * every gradded task binded for that person. */
   getHTMLView() {
     let liEl = document.createElement('tr');
+    let check = document.createElement('input');
+    check.type = 'checkbox';
+    check.value = hashcode(this.name + this.surname);
+    check.name = 'check';
+    let checkEl = getElementTd(check);
+    let delElement = document.createElement('a');
+    delElement.setAttribute('class', 'btn btn-danger');
+    delElement.setAttribute('href', '#delete/' + hashcode(this.name + this.surname));
+    delElement.innerHTML = '<i class="fa fa-ban" aria-hidden="true"></i>';
+    let delEl = getElementTd(delElement);
 
-    let esEL = getElementTd(this.surname + ', ' + this.name);
-    esEL.addEventListener('click', () => {
-      loadTemplate('templates/detailStudent.html',function(responseText) {
-        let STUDENT = this;
-        let ATTITUDE_TASKS = '';
-        this.attitudeTasks.reverse().forEach(function(atItem) {
-          ATTITUDE_TASKS += '<li>' + atItem.task.points + '->' +
-                        atItem.task.description + '->' + formatDate(new Date(atItem.task.datetime)) + '</li>';
-        });
-        let GRADED_TASKS = '';
-        this.gradedTasks.forEach(function(gtItem) {
-          GRADED_TASKS += '<li>' + gtItem.points + '->' +
-                        gtItem.task.name + '->' + formatDate(new Date(gtItem.task.datetime)) + '</li>';
-        });
-        document.getElementById('content').innerHTML = eval('`' + responseText + '`');
-      }.bind(this));
-    });
+    let editElement = document.createElement('a');
+    editElement.setAttribute('class', 'btn btn-edit');
+    editElement.setAttribute('href', '#edit/' + hashcode(this.name + this.surname));
+    editElement.innerHTML = '<i class="fa fa-pencil" aria-hidden="true"></i>';
+    let edEl = getElementTd(editElement);
+    liEl.appendChild(checkEl);
+    liEl.appendChild(edEl);
+    liEl.appendChild(delEl);
+
+    let anames = document.createElement('a');
+    anames.setAttribute('href', '#details/' + hashcode(this.name + this.surname));
+    anames.setAttribute('class', 'ksat');
+    anames.innerHTML = this.surname + ', ' + this.name;
+    let esEL = getElementTd(anames);
 
     liEl.appendChild(esEL);
 
     liEl.appendChild(getElementTd(this[_totalPoints]));
 
-    let addAttitudeTaskEl = document.createElement('button');
-    let tb = document.createTextNode('+XP');
-    addAttitudeTaskEl.appendChild(tb);
+    let addAttitudeTaskEl = document.createElement('a');
+    addAttitudeTaskEl.setAttribute('class', 'btn btn-primary m-2');
+    addAttitudeTaskEl.setAttribute('href', '#addAttitudeTask/' + hashcode(this.name + this.surname));
+    addAttitudeTaskEl.innerText = '+XP';
 
     liEl.appendChild(getElementTd(addAttitudeTaskEl));
-
-    addAttitudeTaskEl.addEventListener('click', () => {
-          let popUp = popupwindow('templates/listAttitudeTasks.html','XP points to ' +
-                                   this.name,300,400);
-          let personInstance = this;
-          popUp.onload = function() {
-            popUp.document.title = personInstance.name + ' ' +
-                                  personInstance.surname + ' XP points';
-            let xpButtons = popUp.document.getElementsByClassName('xp');
-            Array.prototype.forEach.call(xpButtons,function(xpBItem) {
-              xpBItem.addEventListener('click', () => {
-                popUp.close();
-                personInstance.addAttitudeTask(new AttitudeTask('XP task',
-                                          xpBItem.innerHTML,xpBItem.value));
-              });
-            });
-          };
-        });
-
     let that = this;
-
-    this.gradedTasks.forEach(function(gTaskItem) {
+    console.log([...this.gradedTasks].reverse());
+    [...this.gradedTasks].reverse().slice(0,context.showNumGradedTasks).forEach(function(gTaskItem) {
         let inputEl = document.createElement('input');
         inputEl.type = 'number';
         inputEl.min = 0;

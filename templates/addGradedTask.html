@@ -1,15 +1,14 @@
-<h3>Add new Graded Task</h3>
-We understand as a graded task any test or practice that will be marked by teacher and should be reflected in the final mark.
+<div class="row">
+  <h2>Add new Graded Task</h2>
+  We understand as a graded task any test or practice that will be marked by teacher and should be reflected in the final mark.
 
-<form id="newGradedTask">
-  Task name:<br>
-  <input type="text" id="idTaskName" name="taskname" value="">
-  <br>
-  Task description:<br>
-  <textarea rows="4" cols="50" id="idTaskDescription" name="taskdescription" value=""></textarea>
-  <br>
-  Task Weight (0-100 %):<br>
-  <input type="number" id="idTaskWeight" name="taskweight" value="">
-  <br><br>
-  <input type="submit" value="Save">
-</form> 
+  <form id="newGradedTask">
+    <label class="text" for="taskname">Task Name: </label>
+    <input class="form" type="text" id="idTaskName" name="taskname" value="" placeholder="Task Name" required>
+    <label class="text" for="taskdescription">Task Description: </label>
+    <textarea class="form" rows="4" cols="50" id="idTaskDescription" name="taskdescription" value="" placeholder="Task Description" required></textarea>
+    <label class="text" for="taskweight">Weight: </label>
+    <input class="form" type="number" id="idTaskWeight" name="taskweight" value="" placeholder="Task Weight" required>
+    <input class="btn btn-primary" type="submit" value="Save">
+  </form> 
+</div>

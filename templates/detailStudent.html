@@ -1,10 +1,7 @@
-<h1>${STUDENT.name} ${STUDENT.surname} ${STUDENT.getTotalPoints()}</h1>
-<h3>Attitude tasks</h3>
-<ul>
- ${ATTITUDE_TASKS}
-</ul>
-<h3>Graded tasks</h3>
-<ul>
+<div class="row">
+    <h1>${STUDENT.name} ${STUDENT.surname} ${STUDENT.getTotalPoints()}</h1>
+    <h3>Attitude tasks</h3>
+    ${ATTITUDE_TASKS}
+    <h3>Graded tasks</h3>
     ${GRADED_TASKS}
-</ul>
-   
+</div>
